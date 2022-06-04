@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
+import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.*
 import com.example.recipeapp.databinding.ActivityRecipeBinding
 import com.example.recipeapp.db.repo.Repository
 import com.example.recipeapp.db.response.RecipeModel
@@ -27,7 +27,7 @@ class RecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRecipeBinding.inflate(layoutInflater)
         recipeViewModel = ViewModelProvider(this, ViewModelFactory(Repository(RetrofitService.getInstance())))[RecipeViewModel::class.java]
-        adapter = RecipeAdapter(showDetail = ::showDetail)
+        adapter = RecipeAdapter(showDetail = ::showDetail, editDetail = ::editDetail)
         recipeViewModel.errorMessage.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
@@ -44,21 +44,31 @@ class RecipeActivity : AppCompatActivity() {
             it.forEach { item -> adapter.addItem(item) }
             binding.recipeList.layoutManager = LinearLayoutManager(this)
             binding.recipeList.adapter = adapter
-//            binding.recipeList.numOfColumnsPerRowInGridList = 2
-            binding.recipeList.disableSwipeDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.LEFT)
-            binding.recipeList.disableSwipeDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.RIGHT)
-            binding.recipeList.disableSwipeDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.UP)
-            binding.recipeList.disableSwipeDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.DOWN)
+            binding.recipeList.disableSwipeDirection(LEFT)
+            binding.recipeList.disableSwipeDirection(RIGHT)
+            binding.recipeList.disableSwipeDirection(UP)
+            binding.recipeList.disableSwipeDirection(DOWN)
+            binding.recipeList.disableDragDirection(LEFT)
+            binding.recipeList.disableDragDirection(RIGHT)
+            binding.recipeList.disableDragDirection(UP)
+            binding.recipeList.disableDragDirection(DOWN)
         }
         binding.recipeFab.setOnClickListener {
-            startActivity(Intent(this, CreateRecipeActivity::class.java))
+            val intent = Intent(this, CreateRecipeActivity::class.java)
+            intent.putExtra("from", "Add Recipe")
+            startActivity(intent)
         }
         setContentView(binding.root)
     }
 
-    private fun showDetail(recipeModel: RecipeModel) {
-        Log.e("clicked", recipeModel.toString())
+    private fun editDetail(recipeModel: RecipeModel) {
+        val intent = Intent(this, CreateRecipeActivity::class.java)
+        intent.putExtra("ex", recipeModel as Serializable)
+        intent.putExtra("from", "Edit Recipe")
+        this.startActivity(intent)
+    }
 
+    private fun showDetail(recipeModel: RecipeModel) {
         val intent = Intent(this, RecipeDetailActivity::class.java)
         intent.putExtra("ex", recipeModel as Serializable)
         this.startActivity(intent)
