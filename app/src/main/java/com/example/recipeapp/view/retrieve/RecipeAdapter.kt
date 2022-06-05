@@ -1,6 +1,5 @@
 package com.example.recipeapp.view.retrieve
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -9,7 +8,6 @@ import androidx.cardview.widget.CardView
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter
 import com.example.recipeapp.R
 import com.example.recipeapp.db.response.RecipeModel
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
@@ -24,7 +22,7 @@ class RecipeAdapter(
         val name = itemView.findViewById<TextView>(R.id.foodName)!!
         val drag = itemView.findViewById<ImageView>(R.id.foodImage)!!
         val card = itemView.findViewById<CardView>(R.id.item_card)!!
-        val edit = itemView.findViewById<ImageButton>(R.id.update_button)
+        val edit = itemView.findViewById<ImageButton>(R.id.update_button)!!
         val context = itemView.context!!
     }
 
@@ -37,7 +35,7 @@ class RecipeAdapter(
         viewHolder.edit.setOnClickListener {
             editDetail(item)
         }
-        Log.e("test", Gson().toJson(item.step))
+        //Log.e("test", Gson().toJson(item.step))
     }
 
     override fun getViewHolder(itemView: View) = ViewHolder(itemView)

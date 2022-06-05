@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Recipe App</string>
+    <string name="add_recipe_image">add_recipe_image</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="food_name">Food Name</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="new_text">new</string>
+    <string name="update">update</string>
+    <string name="delete">delete</string>
+    <string name="step">Step</string>
+    <string name="save">Save</string>
 </resources>

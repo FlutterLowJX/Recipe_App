@@ -16,6 +16,7 @@
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:background="#dddddd"
+            android:contentDescription="@string/add_recipe_image"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_add_photo_24" />
 
@@ -27,7 +28,7 @@
             android:background="#B3000000"
             android:clickable="true"
             android:focusable="true"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="20dp"
             android:visibility="gone">
@@ -37,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="20dp"
-                android:text="Camera"
+                android:text="@string/camera"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="8pt" />
@@ -47,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="20dp"
-                android:text="Gallery"
+                android:text="@string/gallery"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="8pt" />
@@ -58,7 +59,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/add_recipe_image"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -69,11 +73,11 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_layout_food_name"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:hint="Food Name"
+                    android:hint="@string/food_name"
                     app:endIconMode="clear_text"
                     app:helperTextTextColor="@color/black">
 
@@ -108,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:hint="Ingredient"
+                android:hint="@string/ingredient"
                 app:endIconMode="clear_text"
                 app:helperTextTextColor="@color/black">
 
@@ -134,25 +138,28 @@
 
                 <Button
                     android:id="@+id/add_ingredient"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="save" />
+                    android:text="@string/new_text" />
 
                 <Button
                     android:id="@+id/update_ingredient"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
-                    android:text="update" />
+                    android:text="@string/update" />
 
                 <Button
                     android:id="@+id/delete_ingredient"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="delete" />
+                    android:text="@string/delete" />
             </LinearLayout>
 
             <com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
@@ -170,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:hint="Step"
+                android:hint="@string/step"
                 app:endIconMode="clear_text"
                 app:helperTextTextColor="@color/black">
 
@@ -196,25 +203,28 @@
 
                 <Button
                     android:id="@+id/add_step"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="save" />
+                    android:text="@string/new_text" />
 
                 <Button
                     android:id="@+id/update_step"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="10dp"
-                    android:text="update" />
+                    android:text="@string/update" />
 
                 <Button
                     android:id="@+id/delete_step"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="delete" />
+                    android:text="@string/delete" />
             </LinearLayout>
         </LinearLayout>
 
@@ -224,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/layoutField"
             android:layout_margin="10dp"
-            android:text="Save" />
+            android:text="@string/save" />
     </RelativeLayout>
 
 </ScrollView>

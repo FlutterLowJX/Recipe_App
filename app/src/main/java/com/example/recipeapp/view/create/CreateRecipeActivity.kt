@@ -7,20 +7,28 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.*
 import com.example.recipeapp.R
 import com.example.recipeapp.databinding.ActivityCreateRecipeBinding
+import com.example.recipeapp.db.repo.Repository
 import com.example.recipeapp.db.response.RecipeModel
+import com.example.recipeapp.db.retrofit.RetrofitService
+import com.example.recipeapp.viewmodel.RecipeViewModel
+import com.example.recipeapp.viewmodel.ViewModelFactory
 import com.squareup.picasso.Picasso
 import com.swein.easyphotopicker.SystemPhotoPickManager
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
+
 
 class CreateRecipeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateRecipeBinding
     private lateinit var adapterStep: StepAdapter
     private lateinit var adapterIngredient: IngredientAdapter
+    private lateinit var recipeViewModel: RecipeViewModel
     private var tempImageUri: Uri? = null
+    private var changePic: Boolean = false
     private val provider = "com.example.recipeapp.provider"
     private var recipeModel: RecipeModel? = null
     private val systemPhotoPickManager = SystemPhotoPickManager(this, provider)
@@ -29,6 +37,8 @@ class CreateRecipeActivity : AppCompatActivity() {
         binding = ActivityCreateRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        recipeViewModel = ViewModelProvider(this, ViewModelFactory(Repository(RetrofitService.getInstance())))[RecipeViewModel::class.java]
+
         val message = intent.getStringExtra("from")
         recipeModel = intent.getSerializableExtra("ex") as? RecipeModel
         this.title = message
@@ -36,8 +46,8 @@ class CreateRecipeActivity : AppCompatActivity() {
         ingredient()
         step()
         save()
-        binding.edtFoodName.setText(if (recipeModel != null) recipeModel!!.foodName else "")
 
+        binding.edtFoodName.setText(if (recipeModel != null) recipeModel!!.foodName else "")
         ArrayAdapter.createFromResource(this, R.array.food_type, android.R.layout.simple_spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.edtFoodType.adapter = adapter
@@ -93,6 +103,7 @@ class CreateRecipeActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setText(type: String, data: String, position: Int?) {
         if (type == "step") {
             binding.edtStep.setText(data)
@@ -133,6 +144,8 @@ class CreateRecipeActivity : AppCompatActivity() {
                 step = adapterStep.dataSet.toMutableList()
             }
             Log.e("???", recipeModel.toString())
+            recipeViewModel.addRecipe(tempImageUri!!, "${recipeModel!!.foodName}.jpg", recipeModel!!, changePic)
+//            Log.e("???", recipeModel.toString())
         }
 
     }
@@ -144,6 +157,7 @@ class CreateRecipeActivity : AppCompatActivity() {
                 .transform(RoundedCornersTransformation(10, 10))
                 .placeholder(R.drawable.ic_add_photo_24)
                 .into(binding.addRecipeImage)
+            tempImageUri = Uri.parse(recipeModel!!.picture)
         }
 
         binding.buttonCamera.setOnClickListener {
@@ -152,6 +166,7 @@ class CreateRecipeActivity : AppCompatActivity() {
                     binding.linearLayoutPhotoSelector.visibility = View.GONE
                     tempImageUri = uri
                     binding.addRecipeImage.setImageURI(uri)
+                    changePic = true
                 }
             }
         }
@@ -161,6 +176,7 @@ class CreateRecipeActivity : AppCompatActivity() {
                     binding.linearLayoutPhotoSelector.visibility = View.GONE
                     tempImageUri = uri
                     binding.addRecipeImage.setImageURI(uri)
+                    changePic = true
                 }
             }
         }
